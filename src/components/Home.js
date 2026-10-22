@@ -13,7 +13,7 @@ const Home = () => {
     const [currentProductIndex, setCurrentProductIndex] = useState(0);
     
     const API_BASE_URL = 'https://organic.satbeta.top';
-    const WHATSAPP_NUMBER = '+8801795468672'; // ✅ Country code যোগ করা হয়েছে
+    const WHATSAPP_NUMBER = '+8801722292603'; // ✅ Country code যোগ করা হয়েছে
     
     // WhatsApp মেসেজ ফাংশন - FIXED
     const sendWhatsAppMessage = () => { 

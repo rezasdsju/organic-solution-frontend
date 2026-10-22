@@ -143,7 +143,7 @@ function App() {
                                 </p>
                                 <p className="mb-1">
                                     <i className="bi bi-telephone me-2"></i>
-                                    01795468672
+                                    01722292603
                                 </p>
                                 <p className="mb-1">
                                     <i className="bi bi-geo-alt me-2"></i>
