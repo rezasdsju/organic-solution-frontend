@@ -4,7 +4,7 @@ React frontend for **Organic Solution**, an e-commerce store for organic product
 
 🔗 **Live Demo:** https://organic-solution-pqrs.vercel.app/
 
-⚙️ **Backend Repo:** https://github.com/rezasdsju/emarket/tree/main/backend
+⚙️ **Backend Repo:** https://github.com/rezasdsju/emarket/
 
 ---
 
