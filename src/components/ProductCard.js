@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const ProductCard = ({ product }) => {
-    // ইমেজ URL তৈরি
     const getImageUrl = () => {
         if (product.image_url && product.image_url.startsWith('http')) {
             return product.image_url;
@@ -82,7 +81,7 @@ const ProductCard = ({ product }) => {
                     {product.name || 'পণ্যের নাম নেই'}
                 </h6>
                 
-                {/* ✅ পরিমাণ দেখানো হয়েছে */}
+           
                 <div className="quantity-unit mb-2">
                     <span className="badge bg-info text-dark">
                         <i className="bi bi-box me-1"></i>
@@ -94,9 +93,7 @@ const ProductCard = ({ product }) => {
                     <h5 className="text-primary fw-bold mb-0">
                         ৳{product.price ? product.price.toLocaleString('bn-BD') : '0'}
                     </h5>
-                    {/*
-                    <small className="text-muted">পরিমাণ প্রতি</small>
-                    */}
+
                 </div>
                 
                 <p className="card-text text-muted mb-3 flex-grow-1" style={{

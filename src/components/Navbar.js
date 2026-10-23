@@ -9,7 +9,7 @@ const Navbar = ({ cartItemsCount = 0 }) => {
     const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
-        // Check if user is admin
+   
         const adminStatus = localStorage.getItem('isAdmin') === 'true';
         setIsAdmin(adminStatus);
     }, []);
@@ -187,8 +187,9 @@ const Navbar = ({ cartItemsCount = 0 }) => {
                                 About us 
                             </Link>
                         </li>
-                        
-                        {/* ✅ এডমিন লিংক */}
+                
+
+                
                         {isAdmin ? (
                             <>
                                 <li className="nav-item">

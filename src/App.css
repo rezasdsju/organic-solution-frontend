@@ -50,15 +50,13 @@
 
 
 
-/* App.css ফাইলে নিচের স্টাইলগুলো যোগ করুন */
 
-/* Main content padding for fixed navbar */
 .main-content {
     padding-top: 80px;
     min-height: calc(100vh - 200px);
 }
 
-/* Product card hover effects */
+
 .product-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -68,7 +66,7 @@
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
 }
 
-/* Cart badge animation */
+
 .cart-badge {
     animation: pulse 1.5s infinite;
 }
@@ -85,7 +83,7 @@
     }
 }
 
-/* Loading spinner */
+
 .loading-spinner {
     display: inline-block;
     width: 2rem;
@@ -100,7 +98,7 @@
     to { transform: rotate(360deg); }
 }
 
-/* Responsive adjustments */
+
 @media (max-width: 768px) {
     .navbar-brand {
         font-size: 1.2rem;
@@ -111,7 +109,7 @@
     }
 }
 
-/* Custom scrollbar */
+
 ::-webkit-scrollbar {
     width: 10px;
 }

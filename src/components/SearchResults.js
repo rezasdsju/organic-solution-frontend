@@ -12,13 +12,13 @@ const SearchResults = () => {
     const [showSortDropdown, setShowSortDropdown] = useState(false);
     const sortDropdownRef = useRef(null);
     
-    // URL থেকে প্যারামিটার পড়ুন
+
     const queryParams = new URLSearchParams(location.search);
     const query = queryParams.get('q') || '';
     const page = queryParams.get('page') || 1;
     const sortByFromUrl = queryParams.get('sort_by') || 'relevance';
     
-    // ফিল্টার স্টেট
+ 
     const [filters, setFilters] = useState({
         category: '',
         min_price: '',
@@ -28,7 +28,7 @@ const SearchResults = () => {
     
     const API_BASE_URL = 'https://organic.satbeta.top';
     
-    // সর্ট লেবেল ফাংশন
+   
     const getSortLabel = (sortValue) => {
         switch(sortValue) {
             case 'relevance': return 'রিলেভেন্স';
@@ -39,7 +39,7 @@ const SearchResults = () => {
         }
     };
     
-    // সার্চ ফাংশন
+ 
     const performSearch = async (sortParam = null) => {
         if (!query || query.trim() === '') {
             navigate('/');
@@ -50,12 +50,10 @@ const SearchResults = () => {
         setError(null);
         
         try {
-            // URL তৈরি করুন সব প্যারামিটার সহ
             const params = new URLSearchParams();
             params.append('q', query);
             params.append('page', page);
             
-            // সর্ট প্যারামিটার (প্রথমে আর্গুমেন্ট চেক, তারপর স্টেট)
             const sortToUse = sortParam || filters.sort_by;
             if (sortToUse && sortToUse !== 'relevance') {
                 params.append('sort_by', sortToUse);
@@ -67,7 +65,7 @@ const SearchResults = () => {
             
             const apiUrl = `${API_BASE_URL}/api/search/?${params.toString()}`;
             
-            console.log('🔍 Search API URL:', apiUrl);
+         
             
             const response = await axios.get(apiUrl, {
                 headers: { 'Accept': 'application/json' },
@@ -76,13 +74,10 @@ const SearchResults = () => {
             
             if (response.data.success) {
                 setSearchData(response.data);
-                console.log('✅ Search successful. Sort type:', response.data.sort_by);
-                
-                // সর্টিং ডিবাগ
+
                 if (response.data.products && response.data.products.length > 0) {
                     console.log('💰 First 3 product prices after sorting:');
                     response.data.products.slice(0, 3).forEach((p, i) => {
-                        console.log(`${i+1}. ${p.name}: ৳${p.price} (Sort: ${response.data.sort_by})`);
                     });
                 }
             } else {
@@ -90,28 +85,27 @@ const SearchResults = () => {
             }
             
         } catch (err) {
-            console.error('❌ Search error:', err);
             setError('সার্চ করতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।');
         } finally {
             setLoading(false);
         }
     };
     
-    // প্রাথমিক লোডিং
+   
     useEffect(() => {
         if (query) {
             performSearch();
         }
     }, [query, page]);
     
-    // সর্ট পরিবর্তন হলে নতুন সার্চ করুন
+   
     useEffect(() => {
         if (query) {
             performSearch(filters.sort_by);
         }
     }, [filters.sort_by]);
     
-    // ড্রপডাউন বাইরে ক্লিক করলে বন্ধ করার জন্য
+   
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (sortDropdownRef.current && !sortDropdownRef.current.contains(event.target)) {
@@ -123,20 +117,15 @@ const SearchResults = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
     
-    // সর্ট নির্বাচন হ্যান্ডলার
+   
     const handleSortSelect = (sortValue) => {
-        console.log(`🎯 Sorting selected: ${sortValue}`);
-        
-        // ফিল্টার আপডেট করুন
         setFilters(prev => ({
             ...prev,
             sort_by: sortValue
         }));
         
-        // ড্রপডাউন বন্ধ করুন
         setShowSortDropdown(false);
         
-        // URL আপডেট করুন
         const params = new URLSearchParams(location.search);
         if (sortValue && sortValue !== 'relevance') {
             params.set('sort_by', sortValue);
@@ -146,7 +135,6 @@ const SearchResults = () => {
         navigate(`?${params.toString()}`);
     };
     
-    // ফিল্টার রিসেট
     const clearFilters = () => {
         setFilters({
             category: '',
@@ -156,13 +144,12 @@ const SearchResults = () => {
         });
         setShowSortDropdown(false);
         
-        // URL রিসেট
         const params = new URLSearchParams();
         params.set('q', query);
         navigate(`?${params.toString()}`, { replace: true });
     };
     
-    // লোডিং স্টেট
+
     if (loading && !searchData) {
         return (
             <div className="container mt-5 text-center py-5">
@@ -203,7 +190,7 @@ const SearchResults = () => {
     
     return (
         <div className="search-results-page container mt-4">
-            {/* হেডার */}
+        
             <div className="search-header mb-4">
                 <div className="row">
                     <div className="col-md-8">
@@ -228,7 +215,7 @@ const SearchResults = () => {
                         </div>
                     </div>
                     
-                    {/* সর্ট ড্রপডাউন */}
+            
                     <div className="col-md-4" ref={sortDropdownRef}>
                         <div className="position-relative">
                             <button 
@@ -281,7 +268,7 @@ const SearchResults = () => {
                 </div>
             </div>
             
-            {/* সর্টিং স্ট্যাটাস */}
+   
             {filters.sort_by !== 'relevance' && (
                 <div className="alert alert-info mb-4">
                     <div className="d-flex align-items-center">
@@ -298,9 +285,9 @@ const SearchResults = () => {
                 </div>
             )}
             
-            {/* মূল কন্টেন্ট */}
+    
             <div className="row">
-                {/* সার্চ রেজাল্ট */}
+           
                 <div className="col-12">
                     {products.length === 0 ? (
                         <div className="card border-0 shadow-sm">
@@ -316,7 +303,7 @@ const SearchResults = () => {
                         </div>
                     ) : (
                         <>
-                            {/* সর্টিং যাচাইকারী (ডিবাগ) */}
+                     
                             {products.length > 1 && (
                                 <div className="alert alert-light border mb-3">
                                     <div className="d-flex justify-content-between align-items-center">
@@ -339,7 +326,7 @@ const SearchResults = () => {
                                 </div>
                             )}
                             
-                            {/* পণ্য গ্রিড */}
+                      
                             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                                 {products.map((product) => (
                                     <div key={product.id} className="col">
@@ -351,7 +338,7 @@ const SearchResults = () => {
                                 ))}
                             </div>
                             
-                            {/* পেজিনেশন */}
+                  
                             {total_pages > 1 && (
                                 <nav className="mt-5">
                                     <ul className="pagination justify-content-center">
@@ -408,7 +395,7 @@ const SearchResults = () => {
                 </div>
             </div>
             
-            {/* CSS */}
+      
             <style jsx>{`
                 .sort-dropdown-menu {
                     animation: fadeIn 0.2s ease;

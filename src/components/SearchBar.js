@@ -13,7 +13,7 @@ const SearchBar = () => {
     const searchRef = useRef(null);
     const API_BASE_URL = 'https://organic.satbeta.top';
     
-    // ক্লিক আউটসাইড ডিটেক্ট
+   
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (searchRef.current && !searchRef.current.contains(event.target)) {
@@ -25,7 +25,7 @@ const SearchBar = () => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, []);
     
-    // অটোকমপ্লিট সুজেশন ফেচ
+   
     useEffect(() => {
         if (searchTerm.length >= 2) {
             fetchSuggestions();
@@ -49,7 +49,6 @@ const SearchBar = () => {
             setSuggestions(response.data.suggestions || []);
             setError(null);
         } catch (error) {
-            console.error('Suggestion fetch error:', error);
             setSuggestions([]);
         }
     };
@@ -78,14 +77,11 @@ const SearchBar = () => {
                 }
             );
             
-            // সার্চ পেজে নেভিগেট
             navigate(`/search?q=${encodeURIComponent(searchTerm)}`, {
                 state: { searchData: response.data }
             });
             
-        } catch (error) {
-            console.error('Search error:', error);
-            
+        } catch (error) {        
             if (error.code === 'ECONNABORTED') {
                 setError('সার্চ রিকোয়েস্ট টাইমআউট হয়েছে। আবার চেষ্টা করুন।');
             } else if (error.response) {
@@ -102,7 +98,6 @@ const SearchBar = () => {
                 setError('সার্চ করতে সমস্যা হয়েছে।');
             }
             
-            // Fallback: সরাসরি search page এ যান
             navigate(`/search?q=${encodeURIComponent(searchTerm)}`);
         } finally {
             setLoading(false);
@@ -130,7 +125,6 @@ const SearchBar = () => {
     
     return (
         <>
-            {/* গ্লোবাল স্টাইল ইনজেক্ট - বাংলা ফন্টের জন্য */}
             <style jsx global>{`
                 @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Noto+Sans+Bengali:wght@300;400;500;600;700&display=swap');
                 
@@ -192,7 +186,7 @@ const SearchBar = () => {
                     </div>
                 </form>
                 
-                {/* Error Message */}
+
                 {error && (
                     <div className="alert alert-warning alert-dismissible fade show mt-2" role="alert" style={{ 
                         fontSize: '0.9rem',
@@ -204,7 +198,7 @@ const SearchBar = () => {
                     </div>
                 )}
                 
-                {/* অটোকমপ্লিট সুজেশন ড্রপডাউন */}
+            
                 {showSuggestions && suggestions.length > 0 && (
                     <div className="suggestions-dropdown shadow-lg border rounded bg-white mt-1 position-absolute"
                          style={{
@@ -271,7 +265,7 @@ const SearchBar = () => {
                     </div>
                 )}
                 
-                {/* CSS স্টাইল */}
+           
                 <style jsx>{`
                     .search-container {
                         position: relative;

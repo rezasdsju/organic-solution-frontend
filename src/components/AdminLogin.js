@@ -17,12 +17,10 @@ const AdminLogin = () => {
         setLoading(true);
         
         try {
-            // Django Admin Login API (CSRF token required)
             const csrfResponse = await axios.get(`${API_BASE_URL}/admin/login/`, {
                 withCredentials: true
             });
             
-            // Extract CSRF token from cookies or response
             let csrfToken = '';
             document.cookie.split(';').forEach(cookie => {
                 if (cookie.trim().startsWith('csrftoken=')) {
@@ -30,7 +28,6 @@ const AdminLogin = () => {
                 }
             });
             
-            // Try Django admin login
             const loginResponse = await axios.post(
                 `${API_BASE_URL}/admin/login/`,
                 {
@@ -47,12 +44,12 @@ const AdminLogin = () => {
                 }
             );
             
-            // If login successful (redirect indicates success in Django admin)
+      
             if (loginResponse.status === 200 || loginResponse.request.responseURL.includes('/admin/')) {
                 localStorage.setItem('isAdmin', 'true');
                 localStorage.setItem('adminToken', 'logged-in');
                 
-                // Redirect to admin panel
+       
                 window.open(`${API_BASE_URL}/admin`, '_blank');
                 navigate('/');
                 
@@ -64,7 +61,7 @@ const AdminLogin = () => {
         } catch (error) {
             console.error('Admin login error:', error);
             
-            // Fallback: Simple authentication (for development)
+      
             if (username === 'admin' && password === 'admin123') {
                 localStorage.setItem('isAdmin', 'true');
                 localStorage.setItem('adminToken', 'logged-in');

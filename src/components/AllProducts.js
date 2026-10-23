@@ -11,104 +11,104 @@ const AllProducts = () => {
     const [categories, setCategories] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [priceRange, setPriceRange] = useState({ min: '', max: '' });
-    
+
     const API_BASE_URL = 'https://organic.satbeta.top';
-    
-useEffect(() => {
-    // ✅ All products পেজে ঢুকলে সরাসরি শুরুতে চলে যাবে
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-    fetchAllProducts();
-    fetchCategories();
-}, [sortBy, selectedCategory, priceRange]);
-    
+
+    useEffect(() => {
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        fetchAllProducts();
+        fetchCategories();
+    }, [sortBy, selectedCategory, priceRange]);
+
     const fetchAllProducts = async () => {
         try {
             setLoading(true);
             setError(null);
-            
+
             let apiUrl = `${API_BASE_URL}/api/products/`;
             const params = [];
-            
+
             if (selectedCategory) {
                 params.push(`category=${selectedCategory}`);
             }
-            
+
             params.push(`ordering=${sortBy}`);
-            
+
             if (priceRange.min) {
                 params.push(`price__gte=${priceRange.min}`);
             }
-            
+
             if (priceRange.max) {
                 params.push(`price__lte=${priceRange.max}`);
             }
-            
+
             if (params.length > 0) {
                 apiUrl += '?' + params.join('&');
             }
-            
-            console.log('Fetching products from:', apiUrl);
-            
+
+    
+
             const response = await axios.get(apiUrl, {
                 headers: { 'Accept': 'application/json' }
             });
-            
+
             let productsData = [];
             if (response.data.results) {
                 productsData = response.data.results;
             } else if (Array.isArray(response.data)) {
                 productsData = response.data;
             }
-            
+
             setProducts(productsData);
             setLoading(false);
-            
+
         } catch (error) {
             console.error('Error fetching all products:', error);
             setError('পণ্য লোড করতে সমস্যা হয়েছে।');
             setLoading(false);
         }
     };
-    
+
     const fetchCategories = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/api/categories/`);
             let categoriesData = [];
-            
+
             if (response.data.results) {
                 categoriesData = response.data.results;
             } else if (Array.isArray(response.data)) {
                 categoriesData = response.data;
             }
-            
+
             setCategories(categoriesData);
         } catch (error) {
             console.error('Error fetching categories:', error);
         }
     };
-    
+
     const handleSortChange = (e) => {
         setSortBy(e.target.value);
     };
-    
+
     const handleCategoryChange = (e) => {
         setSelectedCategory(e.target.value);
     };
-    
+
     const handlePriceChange = (type, value) => {
         setPriceRange(prev => ({
             ...prev,
             [type]: value
         }));
     };
-    
+
     const clearFilters = () => {
         setSelectedCategory('');
         setPriceRange({ min: '', max: '' });
         setSortBy('-created');
     };
-    
+
     if (loading) {
         return (
             <div className="container mt-5 text-center py-5">
@@ -119,7 +119,7 @@ useEffect(() => {
             </div>
         );
     }
-    
+
     if (error) {
         return (
             <div className="container mt-5">
@@ -133,10 +133,9 @@ useEffect(() => {
             </div>
         );
     }
-    
+
     return (
         <div className="container mt-4">
-            {/* ব্রেডক্রাম্ব */}
             <nav aria-label="breadcrumb" className="mb-4">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item">
@@ -145,9 +144,8 @@ useEffect(() => {
                     <li className="breadcrumb-item active">All Products</li>
                 </ol>
             </nav>
-            
+
             <div className="row">
-                {/* ফিল্টার সাইডবার */}
                 <div className="col-lg-3 mb-4">
                     <div className="card border-0 shadow-sm sticky-top" style={{ top: '20px' }}>
                         <div className="card-header bg-light">
@@ -157,11 +155,10 @@ useEffect(() => {
                             </h5>
                         </div>
                         <div className="card-body">
-                            {/* সর্টিং */}
                             <div className="mb-4">
                                 <label className="form-label fw-semibold">Sort</label>
-                                <select 
-                                    className="form-select" 
+                                <select
+                                    className="form-select"
                                     value={sortBy}
                                     onChange={handleSortChange}
                                 >
@@ -173,12 +170,12 @@ useEffect(() => {
                                     <option value="-name">Name: Z-A</option>
                                 </select>
                             </div>
-                            
-                            {/* ক্যাটাগরি */}
+
+                 
                             <div className="mb-4">
                                 <label className="form-label fw-semibold">Category</label>
-                                <select 
-                                    className="form-select" 
+                                <select
+                                    className="form-select"
                                     value={selectedCategory}
                                     onChange={handleCategoryChange}
                                 >
@@ -190,8 +187,8 @@ useEffect(() => {
                                     ))}
                                 </select>
                             </div>
-                            
-                            {/* প্রাইস রেঞ্জ */}
+
+                     
                             <div className="mb-4">
                                 <label className="form-label fw-semibold">Price Range</label>
                                 <div className="row g-2">
@@ -215,10 +212,10 @@ useEffect(() => {
                                     </div>
                                 </div>
                             </div>
-                            
-                            {/* ফিল্টার রিসেট */}
+
+                     
                             {(selectedCategory || priceRange.min || priceRange.max || sortBy !== '-created') && (
-                                <button 
+                                <button
                                     className="btn btn-outline-secondary w-100"
                                     onClick={clearFilters}
                                 >
@@ -229,8 +226,8 @@ useEffect(() => {
                         </div>
                     </div>
                 </div>
-                
-                {/* পণ্য লিস্ট */}
+
+          
                 <div className="col-lg-9">
                     <div className="d-flex justify-content-between align-items-center mb-4">
                         <h2 className="fw-bold mb-0">
@@ -238,12 +235,12 @@ useEffect(() => {
                             All Products
                             <span className="badge bg-primary ms-2">{products.length}</span>
                         </h2>
-                        
+
                         <div className="text-muted">
                             {selectedCategory ? 'Filtered Products' : 'All Products'}
                         </div>
                     </div>
-                    
+
                     {products.length === 0 ? (
                         <div className="card border-0 shadow-sm">
                             <div className="card-body text-center py-5">
@@ -252,11 +249,11 @@ useEffect(() => {
                                 </div>
                                 <h4 className="text-muted mb-3">No products found</h4>
                                 <p className="text-muted mb-4">
-                                    {selectedCategory || priceRange.min || priceRange.max 
+                                    {selectedCategory || priceRange.min || priceRange.max
                                         ? 'ফিল্টারের সাথে মিলে এমন কোনো পণ্য নেই। ফিল্টার পরিবর্তন করে আবার চেষ্টা করুন।'
                                         : 'বর্তমানে কোনো পণ্য নেই।'}
                                 </p>
-                                <button 
+                                <button
                                     className="btn btn-primary"
                                     onClick={clearFilters}
                                 >
@@ -267,7 +264,7 @@ useEffect(() => {
                         </div>
                     ) : (
                         <>
-                            {/* পণ্য গ্রিড */}
+                    
                             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
                                 {products.map(product => (
                                     <div key={product.id} className="col">
@@ -275,8 +272,8 @@ useEffect(() => {
                                     </div>
                                 ))}
                             </div>
-                            
-                            {/* পণ্য কাউন্ট */}
+
+                   
                             <div className="mt-4 pt-3 border-top">
                                 <div className="d-flex justify-content-between align-items-center">
                                     <div className="text-muted">
@@ -285,10 +282,10 @@ useEffect(() => {
                                     <div className="text-muted">
                                         সর্ট: {
                                             sortBy === '-created' ? 'নতুন আগে' :
-                                            sortBy === 'created' ? 'পুরনো আগে' :
-                                            sortBy === 'price' ? 'দাম: কম থেকে বেশি' :
-                                            sortBy === '-price' ? 'দাম: বেশি থেকে কম' :
-                                            sortBy === 'name' ? 'নাম: A-Z' : 'নাম: Z-A'
+                                                sortBy === 'created' ? 'পুরনো আগে' :
+                                                    sortBy === 'price' ? 'দাম: কম থেকে বেশি' :
+                                                        sortBy === '-price' ? 'দাম: বেশি থেকে কম' :
+                                                            sortBy === 'name' ? 'নাম: A-Z' : 'নাম: Z-A'
                                         }
                                     </div>
                                 </div>

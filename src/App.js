@@ -123,7 +123,16 @@ function App() {
                     </Routes>
                 </div>
                 
-                {/* ফুটার - আগের মতো সম্পূর্ণ রাখা হয়েছে */}
+           
+
+
+
+
+
+
+
+
+
                 <footer className="bg-dark text-white mt-5 py-4">
                     <div className="container">
                         <div className="row">
@@ -182,7 +191,10 @@ function App() {
                         </div>
                         <hr className="bg-light my-3" />
                         
-                        {/* Payment Methods */}
+                  
+
+
+                  
                         <div className="row">
                             <div className="col-12">
                                 <h6 className="text-center mb-3">Supported Payment Methods</h6>

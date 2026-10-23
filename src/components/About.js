@@ -77,17 +77,7 @@ const About = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    {/*
-                                    <div className="col-md-4 mb-3">
-                                        <div className="d-flex align-items-start">
-                                            <i className="bi bi-arrow-repeat text-warning fs-4 me-3"></i>
-                                            <div>
-                                                <h5>রিটার্ন পলিসি</h5>
-                                                <p className="text-muted">৭ দিনের রিটার্ন গ্যারান্টি</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    */}
+
                                 </div>
                             </div>
                             

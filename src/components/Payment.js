@@ -6,12 +6,10 @@ const Payment = ({ order, onPaymentSuccess }) => {
     const [mobileNumber, setMobileNumber] = useState('');
     const [transactionId, setTransactionId] = useState('');
     const [loading, setLoading] = useState(false);
-    const [step, setStep] = useState(1); // 1: মোবাইল নম্বর, 2: ট্রাঞ্জাকশন ID, 3: সম্পন্ন
+    const [step, setStep] = useState(1); 
     
-    // প্রোডাকশন এবং ডেভেলপমেন্ট URL
-    const API_BASE_URL = 'https://organic.satbeta.top';
-    // const API_BASE_URL = 'http://127.0.0.1:8000'; // বিকল্প
-    
+  
+    const API_BASE_URL = 'https://organic.satbeta.top';  
     const paymentInstructions = {
         bkash: {
             name: 'bKash',
@@ -95,21 +93,13 @@ const Payment = ({ order, onPaymentSuccess }) => {
             );
             
             console.log('Payment response:', response.data);
-            
-            // স্টেপ 2-এ যান (ট্রাঞ্জাকশন ID)
             setStep(2);
-            
             alert(`${paymentInstructions[paymentMethod].name} পেমেন্ট শুরু হয়েছে। পেমেন্ট করুন এবং ট্রাঞ্জাকশন ID দিন।`);
             
         } catch (error) {
-            console.error('Payment initiation error:', error);
-            
-            // ডিটেইলড error মেসেজ
             if (error.response) {
-                console.error('Error response:', error.response.data);
                 alert(`পেমেন্ট শুরু করতে সমস্যা: ${error.response.data.detail || error.response.statusText}`);
             } else if (error.request) {
-                console.error('Error request:', error.request);
                 alert('সার্ভার রেসপন্স দিচ্ছে না। দয়া করে নেটওয়ার্ক চেক করুন।');
             } else {
                 alert('পেমেন্ট প্রসেস করতে সমস্যা হয়েছে: ' + error.message);
@@ -135,9 +125,8 @@ const Payment = ({ order, onPaymentSuccess }) => {
                 status: 'completed'
             };
             
-            console.log('Verifying payment with:', verifyData);
+    
             
-            // পেমেন্ট আপডেট API কল (PUT/PATCH)
             const response = await axios.patch(
                 `${API_BASE_URL}/api/payments/${order.id}/verify/`,
                 verifyData,
@@ -148,9 +137,7 @@ const Payment = ({ order, onPaymentSuccess }) => {
                 }
             );
             
-            console.log('Verification response:', response.data);
-            
-            // পেমেন্ট সফল হলে
+      
             setStep(3);
             
             if (onPaymentSuccess) {
@@ -163,12 +150,7 @@ const Payment = ({ order, onPaymentSuccess }) => {
             alert('পেমেন্ট সফলভাবে ভেরিফাই হয়েছে! আপনার অর্ডার কনফার্ম করা হয়েছে।');
             
         } catch (error) {
-            console.error('Payment verification error:', error);
-            
             if (error.response) {
-                console.error('Error response:', error.response.data);
-                
-                // বিশেষ error হ্যান্ডলিং
                 if (error.response.status === 404) {
                     alert('পেমেন্ট রেকর্ড পাওয়া যায়নি। প্রথমে পেমেন্ট শুরু করুন।');
                     setStep(1);
@@ -431,7 +413,6 @@ const Payment = ({ order, onPaymentSuccess }) => {
                     <h4 className="mb-0">পেমেন্ট প্রসেস</h4>
                 </div>
                 <div className="card-body">
-                    {/* Progress Steps */}
                     <div className="mb-4">
                         <div className="d-flex justify-content-between align-items-center">
                             <div className={`text-center ${step >= 1 ? 'text-primary' : 'text-muted'}`}>
@@ -460,12 +441,10 @@ const Payment = ({ order, onPaymentSuccess }) => {
                         </div>
                     </div>
 
-                    {/* Step Content */}
                     {step === 1 && renderStep1()}
                     {step === 2 && renderStep2()}
                     {step === 3 && renderStep3()}
 
-                    {/* Help Section */}
                     {step !== 3 && (
                         <div className="mt-4 pt-3 border-top">
                             <div className="accordion" id="paymentHelp">

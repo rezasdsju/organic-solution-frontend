@@ -17,28 +17,22 @@ const CategoryProducts = () => {
     const API_BASE_URL = 'https://organic.satbeta.top';
     
     useEffect(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' }); // পেজ লোড হলে উপরে চলে যাবে
-    
-        // চেক করি এটি শুধু ক্যাটাগরি লিস্ট পৃষ্ঠা নাকি নির্দিষ্ট ক্যাটাগরির পণ্য পৃষ্ঠা
+        window.scrollTo({ top: 0, behavior: 'smooth' }); 
         setIsCategoryPage(!slug);
         
         if (slug) {
-            // নির্দিষ্ট ক্যাটাগরির পণ্য লোড করবে
             fetchSpecificCategoryProducts();
         } else {
-            // সব ক্যাটাগরি লিস্ট লোড করবে
             fetchAllCategories();
         }
-    }, [slug, sortBy]); // slug বা sortBy পরিবর্তন হলে আবার ফেচ করবে
-    
+    }, [slug, sortBy]); 
     const fetchSpecificCategoryProducts = async () => {
         try {
             setLoading(true);
             setError(null);
             
-            console.log(`Loading products for category slug: ${slug}`);
             
-            // ১. প্রথমে সব ক্যাটাগরি লোড করি
+        
             const categoriesResponse = await axios.get(`${API_BASE_URL}/api/categories/`);
             let categoriesData = [];
             
@@ -50,7 +44,6 @@ const CategoryProducts = () => {
             
             setAllCategories(categoriesData);
             
-            // ২. বর্তমান ক্যাটাগরি খুঁজে বের করা
             const currentCategory = categoriesData.find(cat => 
                 cat.slug === slug || cat.id.toString() === slug
             );
@@ -62,17 +55,15 @@ const CategoryProducts = () => {
             }
             
             setCategory(currentCategory);
-            console.log('Current category found:', currentCategory);
+      
             
-            // ৩. এই ক্যাটাগরির পণ্য ফেচ করা
+    
             let apiUrl = `${API_BASE_URL}/api/products/?category=${currentCategory.id}`;
             
-            // সর্টিং প্যারামিটার যোগ
             if (sortBy) {
                 apiUrl += `&ordering=${sortBy}`;
             }
             
-            console.log('Fetching products from:', apiUrl);
             
             const productsResponse = await axios.get(apiUrl, {
                 headers: { 'Accept': 'application/json' },
@@ -88,7 +79,6 @@ const CategoryProducts = () => {
                 productsData = productsResponse.data.products;
             }
             
-            console.log(`Found ${productsData.length} products for category`);
             setProducts(productsData);
             setLoading(false);
             
@@ -146,12 +136,11 @@ const CategoryProducts = () => {
     };
     
 const handleCategoryClick = (categorySlug) => {
-    // ✅ এই লাইন যোগ করুন
     window.scrollTo({ top: 0, behavior: 'smooth' });
     navigate(`/category/${categorySlug}`);
 };
     
-    // লোডিং স্টেট
+ 
     if (loading) {
         return (
             <div className="container mt-5 py-5 text-center">
@@ -168,7 +157,7 @@ const handleCategoryClick = (categorySlug) => {
         );
     }
     
-    // এরর স্টেট
+  
     if (error) {
         return (
             <div className="container mt-5">
@@ -199,11 +188,10 @@ const handleCategoryClick = (categorySlug) => {
         );
     }
     
-    // যদি slug না থাকে (সব ক্যাটাগরি পৃষ্ঠা)
+   
     if (isCategoryPage) {
         return (
             <div className="container mt-4">
-                {/* ব্রেডক্রাম্ব */}
                 <nav aria-label="breadcrumb" className="mb-4">
                     <ol className="breadcrumb">
                         <li className="breadcrumb-item">
@@ -218,7 +206,7 @@ const handleCategoryClick = (categorySlug) => {
                     </ol>
                 </nav>
                 
-                {/* হেডার সেকশন */}
+            
                 <div className="category-header bg-gradient-light rounded-3 p-4 mb-4 shadow-sm">
                     <div className="row align-items-center">
                         <div className="col-md-8">
@@ -248,7 +236,7 @@ const handleCategoryClick = (categorySlug) => {
                     </div>
                 </div>
                 
-                {/* ক্যাটাগরি গ্রিড */}
+             
                 {allCategories.length === 0 ? (
                     <div className="alert alert-warning">
                         <i className="bi bi-exclamation-triangle me-2"></i>
@@ -266,7 +254,7 @@ const handleCategoryClick = (categorySlug) => {
                     </div>
                 ) : (
                     <>
-                        {/* ক্যাটাগরি কাউন্টার */}
+                     
                         <div className="row mb-4">
                             <div className="col-12">
                                 <div className="alert alert-light border d-flex justify-content-between align-items-center">
@@ -283,7 +271,7 @@ const handleCategoryClick = (categorySlug) => {
                             </div>
                         </div>
                         
-                        {/* ক্যাটাগরি কার্ডস */}
+                     
                         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                             {allCategories.map(cat => (
                                 <div key={cat.id} className="col">
@@ -331,7 +319,7 @@ const handleCategoryClick = (categorySlug) => {
                             ))}
                         </div>
                         
-                        {/* ব্যাক টু হোম */}
+                   
                         <div className="mt-5 pt-4 border-top text-center">
                             <div className="d-flex flex-wrap justify-content-center gap-3">
                                 <Link to="/" className="btn btn-outline-secondary">
@@ -354,10 +342,9 @@ const handleCategoryClick = (categorySlug) => {
         );
     }
     
-    // যদি slug থাকে (নির্দিষ্ট ক্যাটাগরির পণ্য)
+    
     return (
         <div className="container mt-4">
-            {/* ব্রেডক্রাম্ব */}
             <nav aria-label="breadcrumb" className="mb-4">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item">
@@ -377,7 +364,7 @@ const handleCategoryClick = (categorySlug) => {
                 </ol>
             </nav>
             
-            {/* ক্যাটাগরি হেডার */}
+         
             <div className="category-detail-header bg-gradient-primary text-white rounded-3 p-4 mb-4 shadow-sm">
                 <div className="row align-items-center">
                     <div className="col-md-8">
@@ -408,7 +395,6 @@ const handleCategoryClick = (categorySlug) => {
             </div>
             
             <div className="row">
-                {/* ফিল্টার সাইডবার */}
                 <div className="col-lg-3 mb-4">
                     <div className="card border-0 shadow-sm sticky-top" style={{ top: '20px' }}>
                         <div className="card-header bg-light">
@@ -418,7 +404,6 @@ const handleCategoryClick = (categorySlug) => {
                             </h5>
                         </div>
                         <div className="card-body">
-                            {/* সর্টিং */}
                             <div className="mb-4">
                                 <label className="form-label fw-semibold">Sort</label>
                                 <select 
@@ -435,7 +420,7 @@ const handleCategoryClick = (categorySlug) => {
                                 </select>
                             </div>
                             
-                            {/* অন্যান্য ক্যাটাগরি */}
+
                             {allCategories.length > 1 && (
                                 <div className="mb-4">
                                     <h6 className="border-bottom pb-2 mb-3">Other Categories</h6>
@@ -463,7 +448,7 @@ const handleCategoryClick = (categorySlug) => {
                                 </div>
                             )}
                             
-                            {/* ব্যাক বাটন */}
+                
                             <div className="mt-3">
                                 <Link to="/categories" className="btn btn-outline-primary w-100">
                                     <i className="bi bi-arrow-left me-1"></i>
@@ -474,7 +459,7 @@ const handleCategoryClick = (categorySlug) => {
                     </div>
                 </div>
                 
-                {/* পণ্য লিস্ট */}
+            
                 <div className="col-lg-9">
                     {products.length === 0 ? (
                         <div className="card border-0 shadow-sm">
@@ -504,7 +489,7 @@ const handleCategoryClick = (categorySlug) => {
                         </div>
                     ) : (
                         <>
-                            {/* পণ্য গ্রিড */}
+                    
                             <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
                                 {products.map(product => (
                                     <div key={product.id} className="col">
@@ -513,7 +498,7 @@ const handleCategoryClick = (categorySlug) => {
                                 ))}
                             </div>
                             
-                            {/* পণ্য স্ট্যাটাস */}
+                    
                             <div className="mt-4 pt-3 border-top">
                                 <div className="d-flex justify-content-between align-items-center">
                                     <div className="text-muted">
@@ -535,7 +520,7 @@ const handleCategoryClick = (categorySlug) => {
                 </div>
             </div>
             
-            {/* ডিবাগ তথ্য (যদি ডেভেলপমেন্টে থাকে) */}
+       
             {process.env.NODE_ENV === 'development' && (
                 <div className="mt-5 pt-4 border-top text-muted small">
                     <details>
@@ -554,7 +539,7 @@ const handleCategoryClick = (categorySlug) => {
                 </div>
             )}
             
-            {/* CSS স্টাইলস */}
+          
             <style jsx>{`
                 .category-detail-header {
                     background: linear-gradient(135deg, #28a745 0%, #20c997 100%);

@@ -12,7 +12,7 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity, clearCart }) => {
         phone: '',
         address: '',
         city: 'ঢাকা',
-        payment_method: 'cod' // cod, bkash, rocket, nagad
+        payment_method: 'cod' 
     });
     const [showCustomerForm, setShowCustomerForm] = useState(false);
     const [orderStatus, setOrderStatus] = useState(null);
@@ -21,18 +21,13 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity, clearCart }) => {
         payment_method: 'bkash'
     });
     
-    // API URL
-    const API_BASE_URL = 'https://organic.satbeta.top';
-    // const API_BASE_URL = 'http://127.0.0.1:8000'; // বিকল্প
     
-    // delivery charge গণনা
+    const API_BASE_URL = 'https://organic.satbeta.top';
     const calculateDeliveryCharge = () => {
         const total = calculateTotal();
-        // ৫০০ টাকার বেশি হলে ফ্রি ডেলিভারি
         if (total >= 500) {
             return 0;
         }
-        // ঢাকার জন্য ৬০, অন্যান্য জেলার জন্য ১২০
         return customerInfo.city === 'ঢাকা' ? 60 : 120;
     };
     
@@ -50,7 +45,6 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity, clearCart }) => {
             return;
         }
         
-        // গ্রাহকের তথ্য চাওয়া হবে
         setShowCustomerForm(true);
     };
     
@@ -87,7 +81,6 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity, clearCart }) => {
         setLoading(true);
         
         try {
-            // ১. Backend-এ অর্ডার তৈরি
             const orderData = {
                 name: customerInfo.name,
                 email: customerInfo.email || 'no-email@example.com',
@@ -106,7 +99,7 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity, clearCart }) => {
                 }))
             };
             
-            console.log('Sending order data:', orderData);
+   
             
             const orderResponse = await axios.post(
                 `${API_BASE_URL}/api/orders/`,
@@ -119,30 +112,25 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity, clearCart }) => {
                 }
             );
             
-            console.log('Order created:', orderResponse.data);
+ 
             
-            // ২. অর্ডার সেভ করে পরবর্তী ধাপে যান
+          
             const newOrder = orderResponse.data;
             setCurrentOrder(newOrder);
             setOrderStatus('created');
             
             if (customerInfo.payment_method === 'cod') {
-                // COD হলে সরাসরি confirmation
                 handleOrderConfirmation(newOrder);
             } else {
-                // অনলাইন পেমেন্ট হলে পেমেন্ট পেজ দেখান
                 setShowCustomerForm(false);
                 setShowPayment(true);
             }
             
         } catch (error) {
-            console.error('Order creation error:', error);
             
             let errorMessage = 'অর্ডার তৈরি করতে সমস্যা হয়েছে।';
             
             if (error.response) {
-                console.error('Error Response:', error.response.data);
-                
                 if (error.response.status === 400) {
                     const serverErrors = error.response.data;
                     if (typeof serverErrors === 'object') {
@@ -175,9 +163,9 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity, clearCart }) => {
                 status: 'completed'
             };
             
-            console.log('Processing payment:', paymentData);
+      
             
-            // পেমেন্ট API কল
+      
             const paymentResponse = await axios.post(
                 `${API_BASE_URL}/api/payments/`,
                 paymentData,
@@ -188,9 +176,9 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity, clearCart }) => {
                 }
             );
             
-            console.log('Payment response:', paymentResponse.data);
+       
             
-            // অর্ডার স্ট্যাটাস আপডেট
+           
             await axios.patch(
                 `${API_BASE_URL}/api/orders/${currentOrder.id}/`,
                 { status: 'processing' },
@@ -204,7 +192,6 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity, clearCart }) => {
             handleOrderConfirmation(currentOrder, paymentDetails.transaction_id);
             
         } catch (error) {
-            console.error('Payment error:', error);
             alert('পেমেন্ট প্রসেস করতে সমস্যা হয়েছে। আবার চেষ্টা করুন।');
         } finally {
             setLoading(false);
@@ -216,7 +203,6 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity, clearCart }) => {
         setShowPayment(false);
         setShowCustomerForm(false);
         
-        // স্থানীয় স্টোরেজে অর্ডার সেভ (ঐচ্ছিক)
         const orderData = {
             id: order.id,
             order_number: `ORD-${order.id}`,
@@ -230,10 +216,8 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity, clearCart }) => {
             items: cartItems
         };
         
-        // স্থানীয় স্টোরেজে সেভ
         localStorage.setItem('last_order', JSON.stringify(orderData));
         
-        // কার্ট খালি করুন
         if (clearCart) {
             clearCart();
         }
@@ -246,7 +230,6 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity, clearCart }) => {
         setOrderStatus(null);
     };
     
-    // অর্ডার কনফার্মেশন পেজ
     if (orderStatus === 'confirmed') {
         const lastOrder = JSON.parse(localStorage.getItem('last_order') || '{}');
         
@@ -374,7 +357,7 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity, clearCart }) => {
         );
     }
     
-    // পেমেন্ট পেজ
+   
     if (showPayment && currentOrder) {
         const paymentMethod = customerInfo.payment_method;
         
@@ -514,7 +497,7 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity, clearCart }) => {
         );
     }
     
-    // গ্রাহক ফর্ম দেখানো
+   
     if (showCustomerForm) {
         return (
             <div className="container mt-4">
@@ -637,7 +620,7 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity, clearCart }) => {
                                     </div>
                                 </div>
                                 
-                                {/* অর্ডার সামারি */}
+                            
                                 <div className="mt-5">
                                     <h5 className="mb-3">
                                         <i className="bi bi-receipt me-2"></i>
@@ -737,7 +720,7 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity, clearCart }) => {
         );
     }
     
-    // কার্ট খালি
+
     if (cartItems.length === 0) {
         return (
             <div className="container mt-5 py-5">
@@ -762,7 +745,7 @@ const Cart = ({ cartItems, removeFromCart, updateQuantity, clearCart }) => {
         );
     }
     
-    // মূল কার্ট পেজ
+ 
     return (
         <div className="container mt-4">
             <div className="row">

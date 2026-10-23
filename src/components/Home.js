@@ -13,25 +13,25 @@ const Home = () => {
     const [currentProductIndex, setCurrentProductIndex] = useState(0);
     
     const API_BASE_URL = 'https://organic.satbeta.top';
-    const WHATSAPP_NUMBER = '+8801722292603'; // ✅ Country code যোগ করা হয়েছে
+    const WHATSAPP_NUMBER = '+8801722292603'; 
     
-    // WhatsApp মেসেজ ফাংশন - FIXED
+   
     const sendWhatsAppMessage = () => { 
         const message = "Hello! I'm interested in your organic products. Can you help me?";
         const encodedMessage = encodeURIComponent(message);
         
-        // WhatsApp লিংক তৈরি - IMPORTANT: + চিহ্ন সহ
+     
         const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
         
         console.log('WhatsApp URL:', whatsappUrl);
         window.open(whatsappUrl, '_blank');
     };
     
-    // ✅ ইমেজ URL তৈরি করার ফাংশন - FIXED VERSION
+
     const getImageUrl = (imageField) => {
         console.log("🔍 getImageUrl called with:", imageField);
         
-        // যদি string হয়
+      
         if (typeof imageField === 'string') {
             if (!imageField || imageField.trim() === '') {
                 console.log("Empty image field, returning placeholder");
@@ -60,25 +60,25 @@ const Home = () => {
             return url;
         }
         
-        // যদি object হয় (API থেকে আসলে)
+    
         if (imageField && typeof imageField === 'object') {
             console.log("Image field is an object:", imageField);
             
-            // 1. image_url field চেক
+     
             if (imageField.url) {
                 const url = getImageUrl(imageField.url);
                 console.log("Using object.url:", url);
                 return url;
             }
             
-            // 2. সরাসরি string এ convert করার চেষ্টা
+       
             if (imageField.image) {
                 const url = getImageUrl(imageField.image);
                 console.log("Using object.image:", url);
                 return url;
             }
             
-            // 3. toString() চেষ্টা
+       
             try {
                 const stringValue = String(imageField);
                 if (stringValue && stringValue !== '[object Object]') {
@@ -91,17 +91,17 @@ const Home = () => {
             }
         }
         
-        // Default fallback
+    
         console.warn("No valid image found, returning placeholder");
         return 'https://via.placeholder.com/500x300.png/28a745/ffffff?text=Organic+Product';
     };
     
     useEffect(() => {
-        window.scrollTo({ top: 0, behavior: 'smooth' }); // পেজ লোড হলে উপরে চলে যাবে
+        window.scrollTo({ top: 0, behavior: 'smooth' }); 
 
         fetchData();
         
-        // ✅ 5 সেকেন্ড পরপর হিরো পণ্য চেঞ্জ
+  
         const interval = setInterval(() => {
             if (heroProducts.length > 0) {
                 setCurrentProductIndex((prevIndex) => 
@@ -133,7 +133,7 @@ const Home = () => {
             
             console.log('📦 Products API Response:', productsResponse.data);
             
-            // ✅ পণ্য ডেটা প্রসেস - FIXED
+     
             let productsData = [];
             if (productsResponse.data.results) {
                 productsData = productsResponse.data.results;
@@ -146,7 +146,7 @@ const Home = () => {
                 productsData = [];
             }
             
-            // প্রতিটি পণ্যের ইমেজ ডিবাগ
+     
             productsData.forEach((product, index) => {
                 console.log(`📊 Product ${index + 1}: ${product.name}`, {
                     hasImage: !!product.image,
@@ -159,20 +159,19 @@ const Home = () => {
             
             setProducts(productsData);
             
-            // ✅ হিরো পণ্য নির্বাচন - FIXED LOGIC
-            // প্রথমে ইমেজ আছে এমন পণ্য
+      
             let heroCandidates = productsData.filter(product => {
                 const hasImage = product.image && product.image.toString().trim() !== '';
                 console.log(`🎯 ${product.name}: hasImage = ${hasImage}, image = ${product.image}`);
                 return hasImage;
             });
             
-            // যদি ৫টির কম হয়, তাহলে সব পণ্য যোগ করুন
+        
             if (heroCandidates.length < 5) {
                 heroCandidates = [...heroCandidates, ...productsData.slice(0, 5 - heroCandidates.length)];
             }
             
-            // প্রথম ৫টি পণ্য নিন
+      
             heroCandidates = heroCandidates.slice(0, 5);
             
             console.log(`🎨 Selected ${heroCandidates.length} hero products:`, 
@@ -180,7 +179,7 @@ const Home = () => {
             
             setHeroProducts(heroCandidates);
             
-            // ✅ ক্যাটাগরি ডেটা প্রসেস
+  
             let categoriesData = [];
             if (categoriesResponse.data.results) {
                 categoriesData = categoriesResponse.data.results;
@@ -215,7 +214,7 @@ const Home = () => {
         }
     };
     
-    // ✅ হিরো পণ্য নেভিগেশন
+  
     const nextProduct = () => {
         if (heroProducts.length > 0) {
             setCurrentProductIndex((prevIndex) => 
@@ -232,7 +231,7 @@ const Home = () => {
         }
     };
     
-    // ফিল্টার করা পণ্য
+   
     const getFilteredProducts = () => {
         switch (activeTab) {
             case 'featured':
@@ -253,7 +252,7 @@ const Home = () => {
         }
     };
     
-    // লোডিং স্টেট
+  
     if (loading) {
         return (
             <div className="container mt-5 text-center" style={{ paddingTop: '80px' }}>
@@ -268,7 +267,7 @@ const Home = () => {
         );
     }
     
-    // এরর স্টেট
+  
     if (error) {
         return (
             <div className="container mt-5" style={{ paddingTop: '80px' }}>
@@ -302,7 +301,7 @@ const Home = () => {
     
     return (
         <div className="home-page" style={{ paddingTop: '80px' }}>
-            {/* WhatsApp Floating Button - FIXED */}
+       
             <div 
                 className="whatsapp-float"
                 onClick={sendWhatsAppMessage}
@@ -341,7 +340,7 @@ const Home = () => {
                     }}
                 ></i>
                 
-                {/* Notification Badge */}
+          
                 <div 
                     className="whatsapp-notification"
                     style={{
@@ -361,7 +360,7 @@ const Home = () => {
                 </div>
             </div>
             
-            {/* হিরো সেকশন - Admin পণ্য Slider */}
+      
             <div className="hero-section bg-primary text-white py-5">
                 <div className="container">
                     <div className="row align-items-center">
@@ -387,7 +386,7 @@ const Home = () => {
                             <div className="hero-slider-container">
                                 {currentProduct ? (
                                     <div className="hero-product-wrapper position-relative">
-                                        {/* Admin-এ আপলোড করা ইমেজ */}
+                              
                                         <img 
                                             src={getImageUrl(currentProduct.image)}
                                             alt={currentProduct.name}
@@ -406,7 +405,7 @@ const Home = () => {
                                             }}
                                         />
                                         
-                                        {/* পণ্যের তথ্য */}
+
                                         <div className="hero-product-info position-absolute bottom-0 start-0 w-100 p-3 text-start"
                                              style={{
                                                  background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)',
@@ -431,7 +430,7 @@ const Home = () => {
                                             </div>
                                         </div>
                                         
-                                        {/* ✅ Navigation Buttons */}
+                           
                                         <button 
                                             className="btn btn-light btn-sm position-absolute top-50 start-0 translate-middle-y"
                                             onClick={prevProduct}
@@ -447,7 +446,7 @@ const Home = () => {
                                             <i className="bi bi-chevron-right"></i>
                                         </button>
                                         
-                                        {/* ✅ Image Counter */}
+                              
                                         <div className="position-absolute top-0 end-0 m-2" style={{ zIndex: 10 }}>
                                             <span className="badge bg-dark bg-opacity-75">
                                                 {currentProductIndex + 1} / {heroProducts.length}
@@ -455,7 +454,7 @@ const Home = () => {
                                         </div>
                                     </div>
                                 ) : (
-                                    // ✅ যদি কোনো পণ্য না থাকে
+                     
                                     <div className="text-center py-5 border rounded bg-light">
                                         <i className="bi bi-image display-1 text-primary opacity-50"></i>
                                         <p className="text-dark mt-3">Admin প্যানেলে পণ্য যোগ করুন</p>
@@ -469,7 +468,7 @@ const Home = () => {
                                     </div>
                                 )}
                                 
-                                {/* ✅ Product Dots Indicator */}
+                       
                                 {heroProducts.length > 1 && (
                                     <div className="d-flex justify-content-center mt-3">
                                         {heroProducts.map((_, index) => (
@@ -494,10 +493,9 @@ const Home = () => {
                 </div>
             </div>
             
-            {/* Main Content */}
+     
             <div className="container mt-5">
-                {/* স্ট্যাটাস বার */}
-{/* স্ট্যাটাস বার - সব ডিভাইসে পাশাপাশি (৩টি) */}
+
 <div className="row row-cols-3 mb-4 g-3">
     <div className="col">
         <div className="card border-0 shadow-sm text-center h-100 bg-light">
@@ -535,7 +533,7 @@ const Home = () => {
 </div>
 
                 
-                {/* ক্যাটাগরি সেকশন */}
+       
                 <div className="section-title mb-4">
                     <h2 className="fw-bold">
                         <i className="bi bi-grid me-2"></i>
@@ -592,7 +590,7 @@ const Home = () => {
                     </div>
                 )}
                 
-                {/* পণ্য ট্যাবস */}
+            
                 <div className="section-title mb-4">
                     <h2 className="fw-bold">
                         <i className="bi bi-star me-2"></i>
@@ -601,7 +599,7 @@ const Home = () => {
                     </h2>
                 </div>
                 
-                {/* পণ্য ফিল্টার ট্যাবস */}
+         
                 <div className="mb-4">
                     <ul className="nav nav-tabs" id="productTabs" role="tablist">
                         <li className="nav-item" role="presentation">
@@ -650,7 +648,7 @@ const Home = () => {
                     </ul>
                 </div>
                 
-                {/* পণ্য গ্রিড */}
+         
                 {filteredProducts.length === 0 ? (
                     <div className="alert alert-info">
                         <i className="bi bi-info-circle me-2"></i>
@@ -678,7 +676,7 @@ const Home = () => {
                     </div>
                 )}
                 
-                {/* ফুটার সেকশন */}
+       
                 <div className="mt-5 pt-4 border-top text-center">
                     <p className="text-muted mb-2">
                         <small>
@@ -686,19 +684,7 @@ const Home = () => {
                             ১০০% অথেন্টিক অর্গানিক পণ্য
                         </small>
                     </p>
-                    {/*
-                    <div className="d-flex justify-content-center gap-3 mb-3">
-                        <span className="text-success">
-                            <i className="bi bi-truck"></i> ফ্রি হোম ডেলিভারি
-                        </span>
-                        <span className="text-primary">
-                            <i className="bi bi-arrow-repeat"></i> ৭ দিন রিটার্ন
-                        </span>
-                        <span className="text-warning">
-                            <i className="bi bi-shield-check"></i> গ্যারান্টিযুক্ত
-                        </span>
-                    </div>
-                    */}
+
                     <button 
                         className="btn btn-outline-primary btn-sm"
                         onClick={fetchData}
@@ -709,7 +695,7 @@ const Home = () => {
                 </div>
             </div>
             
-            {/* CSS স্টাইলস */}
+       
             <style jsx>{`
                 .hero-section {
                     background: linear-gradient(135deg, #28a745 0%, #20c997 100%);

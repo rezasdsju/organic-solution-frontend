@@ -19,11 +19,11 @@ const ProductDetail = ({ addToCart }) => {
     const [orderProcessing, setOrderProcessing] = useState(false);
     
 useEffect(() => {
-    // মোবাইল ডিভাইসের জন্য স্ক্রল রিসেট
+  
     window.scrollTo({
         top: 0,
         left: 0,
-        behavior: 'smooth' // smooth animation যোগ করতে পারেন
+        behavior: 'smooth' 
     });
     
     fetchProduct();
@@ -82,7 +82,6 @@ useEffect(() => {
     };
     
     const handleQuickOrder = async () => {
-        // ভ্যালিডেশন চেক
         if (!customerInfo.name || !customerInfo.phone || !customerInfo.address) {
             alert('নাম, ফোন এবং ঠিকানা আবশ্যক');
             return;
@@ -101,7 +100,6 @@ useEffect(() => {
         setOrderProcessing(true);
         
         try {
-            // ১. Backend-এ অর্ডার তৈরি
             const totalPrice = product.price * quantity;
             
             const orderData = {
@@ -125,7 +123,7 @@ useEffect(() => {
             
             console.log('Quick order created:', orderResponse.data);
             
-            // ২. সাফল্য মেসেজ দেখান
+         
             alert(`
                 🎉 অর্ডার সফলভাবে তৈরি হয়েছে!
                 
@@ -140,7 +138,7 @@ useEffect(() => {
                 Reference: ORD${orderResponse.data.id}
             `);
             
-            // ৩. সবকিছু রিসেট
+        
             setShowQuickCheckout(false);
             setCustomerInfo({
                 name: '',
@@ -149,8 +147,7 @@ useEffect(() => {
             });
             setQuantity(1);
             
-            // ৪. কনফার্মেশন পেজে নিয়ে যেতে চাইলে
-            // navigate(`/order-confirmation/${orderResponse.data.id}`);
+     
             
         } catch (error) {
             console.error('Quick order error:', error.response || error);
@@ -160,7 +157,7 @@ useEffect(() => {
         }
     };
     
-    // লোডিং স্টেট
+  
     if (loading) {
         return (
             <div className="container mt-5 text-center">
@@ -172,7 +169,7 @@ useEffect(() => {
         );
     }
     
-    // এরর স্টেট
+   
     if (error) {
         return (
             <div className="container mt-5">
@@ -189,7 +186,7 @@ useEffect(() => {
         );
     }
     
-    // পণ্য না পাওয়া গেলে
+   
     if (!product) {
         return (
             <div className="container mt-5">
@@ -204,7 +201,7 @@ useEffect(() => {
         );
     }
     
-    // কুইক চেকআউট ফর্ম দেখানো
+   
     if (showQuickCheckout) {
         return (
             <div className="container mt-4">
@@ -310,13 +307,12 @@ useEffect(() => {
         );
     }
     
-    // ইমেজ URL তৈরি
+    
     const imageUrl = product.image_url || 
                     (product.image ? `https://organic.satbeta.top${product.image}` : '');
     
     return (
         <div className="container mt-4">
-            {/* ব্রেডক্রাম্ব */}
             <nav aria-label="breadcrumb" className="mb-4">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item">
@@ -336,7 +332,6 @@ useEffect(() => {
             </nav>
             
             <div className="row">
-                {/* বাম পাশ: ইমেজ */}
                 <div className="col-lg-6 col-md-6 mb-4">
                     <div className="card shadow-sm border-0">
                         <div className="card-body p-3">
@@ -370,7 +365,6 @@ useEffect(() => {
                     </div>
                 </div>
                 
-                {/* ডান পাশ: পণ্য তথ্য */}
                 <div className="col-lg-6 col-md-6 mb-4">
                     <div className="card shadow-sm border-0 h-100">
                         <div className="card-body">
