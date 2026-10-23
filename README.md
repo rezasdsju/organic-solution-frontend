@@ -1,70 +1,197 @@
-# Getting Started with Create React App
+# 🌿 Organic Solution: Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+React frontend for **Organic Solution**, an E-Commerce platform for organic products (dates, nuts, honey, dried fruits and more). It provides a complete shopping experience: browsing, search, cart, checkout and an admin panel, powered by a Django REST API.
 
-## Available Scripts
+🔗 **Live Demo:** https://organic-solution-pqrs.vercel.app/
 
-In the project directory, you can run:
+⚙️ **Backend Repo:** https://github.com/rezasdsju/emarket/tree/main/backend
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## ✨ Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Home page** with featured products
+- **Product catalog**: all products, category-wise listing and product detail pages
+- **Smart search** with a search bar and a dedicated search results page
+- **Shopping cart** with global state management (Context API)
+- **Checkout & payment** flow connected to the order and payment APIs
+- **Admin login and admin panel** for managing the store
+- **Responsive design** built with Bootstrap, works on mobile, tablet and desktop
+- **Clean, feature-based architecture** that is easy to scale and maintain
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠️ Tech Stack
 
-### `npm run build`
+| Category | Technology |
+|---|---|
+| Library | React 19 |
+| Routing | React Router v7 |
+| HTTP Client | Axios |
+| UI | Bootstrap 5, React-Bootstrap |
+| State Management | React Context API |
+| Build Tool | Create React App (`react-scripts`) |
+| Testing | React Testing Library, Jest |
+| Deployment | Vercel |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 📁 Project Structure
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+organic-solution-frontend/
+├── public/
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── manifest.json
+│   └── robots.txt
+├── src/
+│   ├── app/                  # App entry and route configuration
+│   │   ├── App.js
+│   │   └── routes.js
+│   ├── assets/               # Images and icons
+│   ├── components/
+│   │   ├── layout/           # Navbar, Footer
+│   │   └── ui/               # Reusable UI (Button, LoadingSpinner)
+│   ├── features/             # Feature-based modules
+│   │   ├── admin/            # AdminLogin, AdminPanel
+│   │   ├── cart/             # Cart
+│   │   ├── catalog/          # Products, categories, search, product detail
+│   │   ├── checkout/         # Payment
+│   │   ├── home/             # Home
+│   │   └── about/            # About
+│   ├── context/              # CartContext
+│   ├── hooks/                # Custom hooks
+│   ├── services/             # API layer (api, productService, categoryService)
+│   ├── utils/                # Helper functions
+│   ├── styles/               # Global styles
+│   └── index.js
+├── .env.example
+├── package.json
+└── README.md
+```
 
-### `npm run eject`
+The project follows a **feature-based structure**: each feature (catalog, cart, checkout, admin) keeps its own components together, while shared pieces live in `components/`, and all API calls are isolated in `services/`.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🚀 Getting Started
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Prerequisites
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Node.js 18 or higher
+- npm
+- The [backend API](https://github.com/rezasdsju/emarket/tree/main/backend) running locally or deployed
 
-## Learn More
+### 1. Clone the repository
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+git clone https://github.com/rezasdsju/organic-solution-frontend.git
+cd organic-solution-frontend
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### 2. Install dependencies
 
-### Code Splitting
+```bash
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 3. Configure environment variables
 
-### Analyzing the Bundle Size
+Copy the example file and fill in your values:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+cp .env.example .env
+```
 
-### Making a Progressive Web App
+Set the backend API URL inside `.env` (use the variable name listed in `.env.example`):
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```env
+REACT_APP_API_URL=http://127.0.0.1:8000/api
+```
 
-### Advanced Configuration
+> Variables used in Create React App must start with `REACT_APP_`. Restart the dev server after changing `.env`.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 4. Start the development server
 
-### Deployment
+```bash
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+The app runs at `http://localhost:3000`.
 
-### `npm run build` fails to minify
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 📜 Available Scripts
+
+| Command | Description |
+|---|---|
+| `npm start` | Run the app in development mode |
+| `npm run build` | Create an optimized production build in `build/` |
+| `npm test` | Run tests in watch mode |
+
+---
+
+## 🔌 Backend Integration
+
+The frontend communicates with the Django REST API through Axios (see `src/services/`). Main endpoints used:
+
+| Purpose | Endpoint |
+|---|---|
+| Categories | `GET /api/categories/` |
+| Products | `GET /api/products/` |
+| Featured products | `GET /api/products/featured/` |
+| Products by category | `GET /api/products/by_category/?category_slug=<slug>` |
+| Search | `GET /api/search/?q=<term>` |
+| Autocomplete | `GET /api/search/autocomplete/?q=<term>` |
+| Place order | `POST /api/orders/` |
+| Payments | `POST /api/payments/` |
+
+Make sure the backend has CORS enabled for your frontend domain.
+
+---
+
+## ☁️ Deployment (Vercel)
+
+1. Push the project to GitHub.
+2. Import the repository in [Vercel](https://vercel.com).
+3. Add the environment variable `REACT_APP_API_URL` pointing to your deployed backend.
+4. Deploy. Vercel detects Create React App automatically.
+
+For client-side routing to work on refresh, add a `vercel.json` in the project root:
+
+```json
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
+```
+
+---
+
+## 🗺️ Roadmap
+
+- [ ] Token-based admin authentication (JWT)
+- [ ] User accounts and order history
+- [ ] Wishlist and product reviews
+- [ ] Image lazy loading and performance optimization
+- [ ] SEO improvements (Open Graph tags, meta descriptions)
+- [ ] Unit and integration tests
+- [ ] Migration from Create React App to Vite
+
+---
+
+## 🤝 Contributing
+
+Suggestions and pull requests are welcome. Please open an issue first to discuss major changes.
+
+## 📄 License
+
+This project is built for learning and portfolio purposes. Add a license of your choice (e.g. MIT) before distributing.
+
+---
+
+## 👤 Author
+
+**Rezaul Karim Rifat**
+GitHub: [@rezasdsju](https://github.com/rezasdsju)
+Live Demo: https://organic-solution-pqrs.vercel.app/
